@@ -26,7 +26,7 @@ export default mongoose.model(
       type: String,
       required: true,
     },
-    password: {
+    address: {
       type: String,
       required: true,
     },

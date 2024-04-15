@@ -2,10 +2,12 @@ import express from "express";
 import * as dotenv from "dotenv";
 import { usersRouter, studentsRouter } from "./routes/index.js";
 import connect from "./database/database.js";
+import checkToken from "./authentication/auth.js";
 
 dotenv.config();
 
 const app = express();
+app.use(checkToken);
 const port = process.env.PORT ?? 3000;
 app.use(express.json());
 

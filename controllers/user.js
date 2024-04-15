@@ -18,14 +18,24 @@ const login = async (req, res) => {
       .json({ errors: errors.array() });
   }
   const { email, password } = req.body;
-  await userRepository.login({ email, password });
-  res.status(HTTPConstStatusCode.OK).send("login users Successfully");
+  try {
+    let exitingUser = await userRepository.login({ email, password });
+    res
+      .status(HTTPConstStatusCode.OK)
+      .json({ message: "Login users Successfully", data: exitingUser });
+  } catch (exceptions) {
+    console.log(exceptions);
+    res.status(HTTPConstStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exceptions.toString(),
+    });
+  }
 };
 
 const register = async (req, res) => {
   const { name, email, password, phoneNumber, address } = req.body;
+  console.log(`Controller` + req.body);
 
-  myEvent.emit(`event.register.user`, { name, email, phoneNumber });
+  myEvent.emit(`event.register.user`, { name, email, phoneNumber, address });
   try {
     debugger;
     const user = await userRepository.register({
@@ -35,7 +45,10 @@ const register = async (req, res) => {
       phoneNumber,
       address,
     });
-    console.log(user);
+    console.log("Controller");
+    Object.keys(user).forEach((key) => {
+      console.log(`${key}: ${user[key]}`);
+    });
     res.status(HTTPConstStatusCode.INSERT_OK).json({
       message: "Register successfully",
       data: user,
@@ -43,7 +56,7 @@ const register = async (req, res) => {
   } catch (exceptions) {
     debugger;
     console.log(exceptions);
-    res.status(HTTPConstStatusCode.INTERNAL_SERVER_ERROR).JSON({
+    res.status(HTTPConstStatusCode.INTERNAL_SERVER_ERROR).json({
       message: exceptions.toString(),
     });
   }
