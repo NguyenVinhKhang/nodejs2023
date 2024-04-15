@@ -10,9 +10,8 @@ const login = async ({ email, password }) => {
   if (exitingUser) {
     let isMatch = await bcrypt.compare(password, exitingUser.password);
     if (!!isMatch) {
-      //creat javawebtoken
       let token = jwt.sign({ exitingUser }, process.env.JWT_SECRET, {
-        expiresIn: "60",
+        expiresIn: "30 days",
       });
       return {
         ...exitingUser.toObject(),
@@ -37,7 +36,7 @@ const register = async ({ name, email, password, phoneNumber, address }) => {
   const exitingUser = await User.findOne({ email }).exec();
   if (!!exitingUser) {
     //check not null
-    console.log(`User exited` + Exception.USER_EXIST);
+    // console.log(`User exited` + Exception.USER_EXIST);
     throw new Exception(Exception.USER_EXIST);
   }
   const hashPassword = await bcrypt.hash(
@@ -51,7 +50,7 @@ const register = async ({ name, email, password, phoneNumber, address }) => {
     phoneNumber,
     address,
   });
-  console.log(`repository` + newUser);
+  // console.log(`repository` + newUser);
   return {
     ...newUser._doc,
     password: "Not show",

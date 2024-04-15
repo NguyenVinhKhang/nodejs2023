@@ -5,4 +5,6 @@ router.get("/", studentControllers.getAllStudents);
 router.get("/:id", studentControllers.getStudentsById);
 router.post("/insert", studentControllers.insertStudents);
 router.patch("/inserts", studentControllers.updateStudent);
+router.post("/generateFakeStudent", studentControllers.generateFakeStudent);
+
 export default router;

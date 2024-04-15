@@ -18,7 +18,7 @@ const Student = mongoose.model(
         type: String,
         required: true,
         validate: {
-          validator: (value) => isEmail,
+          validator: (value) => isEmail(value),
           message: `Email is incorrect format`,
         },
       },
@@ -28,7 +28,7 @@ const Student = mongoose.model(
       gender: {
         type: String,
         enum: {
-          values: [`Males`, `Female`],
+          values: [`Male`, `Female`],
           message: `{VALUE} is not support`,
         },
         required: true,
@@ -37,7 +37,7 @@ const Student = mongoose.model(
         type: String,
         required: true,
         validate: {
-          validator: (value) => value.length > 5,
+          validator: (value) => value.length > 5 && value.length <= 30,
           message: `Phone must be at least 5 digits`,
         },
       },

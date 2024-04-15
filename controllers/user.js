@@ -33,7 +33,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   const { name, email, password, phoneNumber, address } = req.body;
-  console.log(`Controller` + req.body);
+  // console.log(`Controller` + req.body);
 
   myEvent.emit(`event.register.user`, { name, email, phoneNumber, address });
   try {

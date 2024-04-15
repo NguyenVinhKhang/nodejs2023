@@ -10,7 +10,7 @@ export default function checkToken(req, res, next) {
     next();
     return;
   }
-  console.log(`checkToken ` + req.headers?.authorization.split(" ")[1]);
+  // console.log(`checkToken ` + req.headers?.authorization.split(" ")[1]);
   const token = req.headers?.authorization.split(" ")[1];
   try {
     const jwtObject = jwt.verify(token, process.env.JWT_SECRET);
@@ -23,7 +23,7 @@ export default function checkToken(req, res, next) {
     } else {
       next();
     }
-    console.log(jwtObject.iat, jwtObject.exp, jwtObject);
+    // console.log(jwtObject.iat, jwtObject.exp, jwtObject);
   } catch (exception) {
     console.log(exception);
     res.status(HTTPConstStatusCode.BAD_REQUEST).json({
